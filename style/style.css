@@ -1,28 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
 *{
   padding: 0;
   margin: 0;
   text-decoration: none;
-  font-family: Oswald, sans-serif;
   list-style: none;
   box-sizing: border-box;
 }
+
 body{
-  font-family: Oswald;
+  font-family: Oswald, sans-serif;
 }
-nav{
+
+h1{
+  font-size: 100px;
+}
+
+nav {
   background: #b22234;
   height: 80px;
   width: 100%;
 }
-label.logo{
-  color: white;
-  font-size: 35px;
-  line-height: 80px;
-  padding: 0 100px;
-  font-family: Oswald, sans-serif;
-  font-weight: bolder;
-}
+
 nav ul{
   float: right;
   margin-right: 20px;
@@ -41,6 +38,7 @@ nav ul li a{
   border-radius: 3px;
   text-transform: uppercase;
 }
+
 a.active,a:hover{
   background: #3c3b6e;
   transition: .5s;
@@ -97,15 +95,4 @@ a.active,a:hover{
   #check:checked ~ ul{
     left: 0;
   }
-}
-section{
-  background: url(bg1.jpg) no-repeat;
-  background-size: cover;
-  height: calc(100vh - 80px);
-}
-footer{
-  {
-    background: #b22234;
-    height: 80px;
-    width: 100%;
 }
