@@ -1,0 +1,1626 @@
+
+
+jQuery(document).ready(function () {
+    var allCheckboxes = jQuery('.tx-solr .search-filter input:checkbox');
+    jQuery(allCheckboxes).on('ifChecked', function () {
+        var filterUrl = jQuery(this).data('solrurl');
+        window.location.href = filterUrl;
+    });
+    jQuery(allCheckboxes).on('ifUnchecked', function () {
+        var filterType = jQuery(this).data('solrtype');
+        var replace = '&tx_solr%5Bfilter%5D%5B0%5D=type%3A' + filterType;
+        var currentUrl = window.location.href;
+        var newUrl = currentUrl.replace(replace, '');
+        window.location.href = newUrl;
+    });
+});
+
+(function ($) {
+    $(document).ready(function () {
+        if ($('#news-list-year').length > 0) {
+            $('#news-list-year .selectbox').change(function () {
+                window.location.href = $(this).val();
+                return false;
+            });
+        }
+        $('#search-knowhow').on('submit', function(e){
+            if ($('.searchValue', this).val().toString().length === 0 ) {
+                e.preventDefault();
+            }
+        });
+    });
+})(jQuery);
+
+function LwEnetSmaCountrySpecificAddressesGetFormFields() {
+
+    var that = this;
+    this.ajaxTypeNum = 1323951558;
+    this.plugin = 'tx_lwenetsmacountryspecificaddresses_ajax';
+    this.extensionName = null;
+    this.pluginName = null;
+    this.objectContext = null;
+    this.identifier = null;
+    this.$addressContainer = null;
+
+    /**
+     *
+     * @return void
+     */
+    this.bootstrap = function () {
+        if (this.extensionName === null) {
+            throw Error('extensionName not set.');
+        }
+        if (this.pluginName === null) {
+            throw Error('pluginName not set.');
+        }
+        if (this.objectContext === null) {
+            throw Error('objectContext not set.');
+        }
+        if (this.identifier === null) {
+            throw Error('Identifier not set.');
+        }
+
+        this.$addressContainer = jQuery('#lwEnetSmaCountrySpecificAddresses-address-' + this.identifier);
+        if (this.$addressContainer.length < 1) {
+            throw Error('$addressContainer not set.');
+        }
+
+        this.$addressContainer.closest('form.ajaxSubmit').bind('submit', function () {
+
+            formObject = jQuery(this);
+            var validator = jQuery(this).smaValidate({
+                debug: false, submitHandler: function () {
+                }
+            });
+            if (!validator.valid()) {
+                return false;
+            }
+
+            jQuery(document.createElement('div')).attr('class', 'loadingIcon').appendTo('#content').html('<img src="/typo3conf/ext/lw_enet_sma_country_specific_addresses/Resources/Public/Images/loading.gif" />');
+            var fancyHeight = jQuery('#fancybox-wrap').height();
+            var fancyWidth = jQuery('#fancybox-wrap').width();
+            jQuery('.loadingIcon').css({'top': ((fancyHeight / 2) - 40), 'left': (fancyWidth / 2) - 30});
+
+            var actionAttr = 'href';
+            // get action link
+            if (jQuery(formObject).is('form')) {
+                actionAttr = 'action';
+            }
+
+            // perform AJAX request
+            jQuery.ajax({
+                url: jQuery(formObject).attr(actionAttr),
+                type: 'POST',
+                data: jQuery(formObject).serialize(),
+                success: function (response) {
+                    response = jQuery.trim(response);
+                    if (response == 'reloadParent') {
+
+                        if (jQuery("#triggerAjaxSubmit").length > 0) {
+                            (function ($) {
+                                $.fancybox.close();
+                            }(jQuery));
+                            jQuery("input, textarea, select").removeAttr('disabled');
+                            jQuery("#lwEnetSmaDeviceExchange-form-contact").remove();
+                            jQuery("#triggerAjaxSubmit").removeAttr('disabled');
+                            DeviceExchange.init();
+                            jQuery("#triggerAjaxSubmit").trigger("click");
+                        } else {
+                            var form = jQuery('.selectableAddresses').closest('form').get(0);
+                            if (form) {
+                                form.action = window.location.href;
+                                form.submit();
+                            } else {
+                                window.location = window.location.href;
+                            }
+                            jQuery('#fancybox-wrap').remove();
+                        }
+                    } else {
+                        jQuery.fancybox(
+                            response,
+                            {overlayColor: '#FFF'}
+                        );
+                    }
+                }
+            });
+
+            return false;
+        });
+
+        this.$addressContainer.find('.lwEnetSmaCountrySpecificAddresses-address-country').unbind('change').change(function () {
+            that.showLoadingSpinner();
+
+            var controllerArguments = {
+                'action': 'changeAddress',
+                'controller': 'Ajax',
+                'countryCode': jQuery(this).val(),
+                'objectContext': that.objectContext,
+                'partial': that.partial,
+                'newAddress': jQuery('#lwEnetSmaCountrySpecificAddresses-address-country-newAddress').val(),
+                'formContext': {
+                    'extensionName': that.extensionName,
+                    'pluginName': that.pluginName,
+                    'name': jQuery(this).closest('form').attr('name')
+                }
+            };
+            if (jQuery('#lwEnetSmaCountrySpecificAddresses-address-country-languageKey') !== undefined) {
+                controllerArguments.formContext.languageKey = jQuery('#lwEnetSmaCountrySpecificAddresses-address-country-languageKey').val();
+            }
+
+            var arguments = {
+                'type': that.ajaxTypeNum,
+                'no_cache': 1
+            };
+
+            if (typeof LwEnetSmaBase !== 'undefined' && typeof LwEnetSmaBase.ajaxLanguageId !== 'undefined' && LwEnetSmaBase.ajaxLanguageId.length !== 0) {
+            	arguments['L'] = LwEnetSmaBase.ajaxLanguageId;
+            }
+
+            jQuery.extend(
+                true,
+                arguments,
+                that.prefixControllerArguments(controllerArguments)
+            );
+
+            jQuery.ajax({
+                url: '/',
+                type: 'POST',
+                dataType: 'html',
+                data: arguments,
+                success: that.changeAddressTemplate,
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                }
+            });
+
+        });
+    };
+
+    /**
+     *
+     * @param arguments
+     * @return object
+     */
+    this.prefixControllerArguments = function (arguments) {
+        var thisInstance = this;
+        var processedArguments = {};
+        jQuery.each(arguments, function (key, value) {
+            processedArguments[thisInstance.plugin + '[' + key + ']'] = value;
+        });
+        return processedArguments;
+    };
+
+    /**
+     * change template (callback function)
+     *
+     * @param data
+     * @param textStatus
+     * @param jqXHR
+     * @return void
+     */
+    this.changeAddressTemplate = function (data, textStatus, jqXHR) {
+        // save old inputs
+        var inputList = jQuery('input[type=text]', that.$addressContainer);
+
+        jQuery('.lwEnetSmaCountrySpecificAddresses-address', that.$addressContainer).children().remove();
+        jQuery('.lwEnetSmaCountrySpecificAddresses-address', that.$addressContainer).append(
+            jQuery('#lwEnetSmaCountrySpecificAddresses-ajax-address', data).children()
+        );
+        // restore values if any
+        inputList.each(function (index, input) {
+            var $thisInput = jQuery(input);
+            jQuery('#' + $thisInput.attr('id')).val($thisInput.val());
+        });
+        inputList.remove();
+        that.hideLoadingSpinner();
+        // v3
+        if (TYPO3.settings.TS.smaMeisterwerkV3_enabled !== undefined && TYPO3.settings.TS.smaMeisterwerkV3_enabled === "1") {
+            var form = that.$addressContainer.closest('form');
+            //form.parsley.destroy();
+            //form.parsley();
+        }
+    };
+
+    /**
+     * showLoadingSpinner
+     *
+     * @return void
+     */
+    this.showLoadingSpinner = function () {
+        jQuery('.lwEnetSmaCountrySpecificAddresses-address', this.$addressContainer).css('visibility', 'hidden');
+        jQuery('.lwEnetSmaCountrySpecificAddresses-address-loading', this.$addressContainer).show();
+    };
+
+    /**
+     * hideLoadingSpinner
+     *
+     * @return void
+     */
+    this.hideLoadingSpinner = function () {
+        jQuery('.lwEnetSmaCountrySpecificAddresses-address-loading', this.$addressContainer).hide();
+        jQuery('.lwEnetSmaCountrySpecificAddresses-address', this.$addressContainer).css('visibility', 'visible');
+    };
+}
+/**
+ * Inheritance
+ *
+ * @package JavaScript MVC
+ * @subpackage Utility
+ * @author Alexander All <ara@lightwerk.de>
+ * 
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+var LwJsMvc_Utility_Inheritance = {
+
+	/**
+	 * Extend sub class for super class
+	 * 
+	 * @param	String	subClass
+	 * @param	String	superClass
+	 * @return	void
+	 */
+	extend: function (subClass, superClass) {
+		subClass.prototype = new superClass();
+		subClass.prototype.superclass = superClass;
+		subClass.prototype.constructor = subClass;
+	}
+
+};
+/**
+ * Connector
+ *
+ * @package JavaScript MVC
+ * @subpackage Persistence
+ * @author Alexander All <ara@lightwerk.de>
+ * 
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+function LwJsMvc_Persistence_Storage() {
+	
+	/**
+	 * @var	String url
+	 */
+	var url = null;
+
+	/**
+	 * @var	String dataType
+	 */
+	var dataType = null;
+
+	/**
+	 * @var	String type
+	 */
+	var type = 'post';
+
+	/**
+	 * @var XMLHttpRequest
+	 */
+	var XMLHttpRequest = null;
+
+	/**
+	 * Setter for url
+	 *
+	 * @return	LwJsMvc_Persistence_Storage
+	 */
+	this.setUrl = function(url) {
+		this.url = url;
+		return this;
+	};
+
+	/**
+	 * Setter for dataType
+	 *
+	 * @return	LwJsMvc_Persistence_Storage
+	 */
+	this.setDataType = function(dataType) {
+		this.dataType = dataType;
+		return this;
+	};
+
+	/**
+	 * Setter for type
+	 *
+	 * @return	LwJsMvc_Persistence_Storage
+	 */
+	this.setType = function(type) {
+		this.type = type;
+		return this;
+	};
+
+	/**
+	 * Cancels the current HTTP request
+	 * 
+	 * @return	void
+	 */
+	this.abortRequest = function() {
+		if (XMLHttpRequest != null) {
+			XMLHttpRequest.abort();
+		}
+	}
+
+	/**
+	 * Perform an asynchronous HTTP (Ajax) request.
+	 *
+	 * @param	Object		data
+	 * @param	Function	Callback
+	 * @return	void
+	 */
+	this.ajax = function(arguments, callback) {
+		if(this.url == null) {
+			throw new Error("url not set in LwJsMvc_Persistence_Storage");
+		}
+		XMLHttpRequest = jQuery.ajax({
+			type: this.type,
+			url: this.url,
+			dataType: this.dataType,
+			data: arguments,
+			success: callback
+		});
+	};
+
+};
+/**
+ * Abstract Model
+ *
+ * @package JavaScript MVC
+ * @subpackage Model
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+function LwJsMvc_Model_Abstract() {
+	LwJsMvc_Service_Loader.loadIncludedJs('LwJsMvc_Persistence_Storage');
+	this.handle = LwJsMvc_Service_Loader.getInstance('LwJsMvc_Persistence_Storage');
+};
+/**
+ * Configuration file for the JavaScript MVC-Application.
+ * 
+ * @package JavaScript MVC
+ * @subpackage Configuration
+ * @author Alexander All <ara@lightwerk.de>
+ * 
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+var LwJsMvc_Configuration_Settings = {
+
+		// url to framework folder (in STANDALONE-mode required)
+	APPLICATION_DIR:	"",
+
+		// path to localization file
+	LOCALIZATION_PATH:	"",
+
+		// Framework context in which it is used (if false TYPO3 will be assumed)
+	STANDALONE: 		false
+
+};
+/**
+ * Loader
+ *
+ * @package JavaScript MVC
+ * @subpackage Service
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+var LwJsMvc_Service_Loader = {
+
+	STANDALONE: LwJsMvc_Configuration_Settings.STANDALONE,
+	CONSTANTS: LwJsMvc_Configuration_Settings,
+	TYPO3_MODE: 'FE',	// FE|BE
+	registeredFiles: [],
+
+	/**
+	 * Starts indexAction of each controller
+	 *
+	 * @return	void
+	 */
+	start: function() {
+		for(var i = 0, length = this.registeredFiles.length; i < length; i++){
+			var className = this.registeredFiles[i];
+			var type = this.getType(className);
+			if (type == 'function') {
+				var object = new window[className](this);
+					// if object has an indexAction, invoke it
+				if(typeof object.indexAction == 'function') {
+					object.indexAction();
+				}
+			}
+		}
+	},
+
+	/**
+	 * Find out the type of className
+	 *
+	 * @param	String	name of the class
+	 * @return	String
+	 */
+	getType: function(className) {
+		var type;
+		try {
+			type = typeof eval(className);
+		} catch (Error) {
+			type = 'undefined';
+		}
+		return type;
+	},
+
+	/**
+	 * Register and inlude class.
+	 *
+	 * @param	String	name of the class
+	 * @return	void
+	 */
+	load: function(className) {
+		className = className+'';
+		if(!this.isRegistered(className)) {
+			this.registeredFiles.push(className);
+		}
+	},
+
+	/**
+	 * loadIncludedJs
+	 *
+	 * @param	String	name of the class
+	 * @return	void
+	 */
+	loadIncludedJs: function(className) {
+		className = className+'';
+		if(!this.isRegistered(className)) {
+			this.registeredFiles.push(className);
+		}
+	},
+
+	/**
+	 * Determined if className has already registerd
+	 *
+	 * @param	String	class name
+	 * @return	Boolean
+	 */
+	isRegistered: function(className) {
+		if(typeof className == 'string' && jQuery.inArray(className, this.registeredFiles) == -1 ) {
+			return false;
+		}
+		return true;
+	},
+
+	/**
+	 * Get instance of given class name
+	 *
+	 * @return	Object	instance of class
+	 */
+	getInstance: function(className) {
+		if(!this.isRegistered(className)) {
+			this.load(className);
+		}
+		if (className) {
+			try {
+				className = typeof className == 'string' ? eval(className) : className;
+				className.prototype.loader = this;
+				return new className(arguments);
+			} catch (Error) {
+				var ObjectLiteral = eval(className);
+				ObjectLiteral.loader = this;
+				return ObjectLiteral;
+			}
+		} else {
+			throw new Error("className is not a constructor!");
+		}
+	},
+
+	/**
+	 * Load file from server.
+	 *
+	 * @param	String		file
+	 * @param	String 		type can be html , json , jsonp , script , or text
+	 * @param	Function	A callback function that is executed when the request completes.
+	 * @return	void
+	 */
+	loadFile: function(file, type, callback) {
+		var connector = this.getInstance('LwJsMvc_Persistence_Storage');
+		connector.setType("GET").setDataType(type).setUrl(file).ajax({}, callback);
+	}
+
+};
+/**
+ * A mapper to map JSON-data to objects.
+ *
+ * @package JavaScript MVC
+ * @subpackage Utility
+ * @author Alexander All <ara@lightwerk.de>
+ * 
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+var LwJsMvc_Utility_DataMapper = {
+
+	/**
+	 * Maps object to the given class name.
+	 * 
+	 * @param	String		className
+	 * @param	String		json
+	 * @return	Object		An object of className
+	 */
+	map: function(className, json) {
+		var object = LwJsMvc_Service_Loader.getInstance(className);
+		var obj = jQuery.parseJSON(json);
+		for(var property in obj) {
+			if (property in object) {
+				object[property] = obj[property];
+			}
+		}
+		return object;
+	}
+
+};
+/**
+ * Configuration file for SMA Solr Search.
+ *
+ * @package SMA Solr Search
+ * @subpackage Configuration
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+var LwSmaSolrSearch_Configuration_Settings = {
+
+    // id's and classes for HTML elements
+    IDENTIFIER: {
+        facets: {
+            col1: '#tx-lwsmasolrsearch-col1',
+            col2: '#tx-lwsmasolrsearch-col2',
+            col4: '#tx-lwsmasolrsearch-col4',
+            languages: '#download-main .tx-lwsmasolrsearch-language',
+            languagesSearch: '#download-search .tx-lwsmasolrsearch-language'
+        },
+        facetFields: {
+            col1: 'docFamily',
+            col2: 'docFamilyProduct',
+            col4: 'docType',
+            languages: 'docLanguage'
+        },
+        wrapper: '.tx-lwsmasolrsearch-pi1',
+        form: '#tx-lwsmasolrsearch-form',
+        result: '#download-main .tx-lwsmasolrsearch-result',
+        resultSearch: '#download-search .tx-lwsmasolrsearch-result',
+        activeClassName: 'active',
+        reset: '#tx-lwsmasolrsearch-reset-menu',
+        searchField: '#downloadSearch-box',
+        submitForm: '#tx-lwsmasolrsearch-form'
+    }
+
+};
+
+/**
+ * QueryController
+ *
+ * @package SMA Solr Search
+ * @subpackage Controller
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+function LwSmaSolrSearch_Controller_SearchController() {
+
+    /**
+     * @var jQuery's $-function
+     */
+    var $ = eval('jQuery');
+
+    /**
+     * @var LwSmaSolrSearch_Controller_SearchControllerV3
+     */
+    var self = this;
+
+    /**
+     * @var LwSmaSolrSearch_Configuration_SettingsV3
+     */
+    var settings = LwSmaSolrSearch_Configuration_Settings;
+
+    /**
+     * @var LwSmaSolrSearch_Model_Search
+     */
+    this.model = $loader.getInstance('LwSmaSolrSearch_Model_Search');
+
+
+    /**
+     * @var LwSmaSolrSearch_Solr_QueryBuilder
+     */
+    var builder = $loader.getInstance('LwSmaSolrSearch_Solr_QueryBuilder', '#tx-lwsmasolrsearch-data');
+
+    /**
+     * @var LwSmaSolrSearch_Service_MemoryService
+     */
+    var memory = $loader.getInstance('LwSmaSolrSearch_Service_MemoryService');
+
+    /**
+     * var LwSmaSolrSearch_Solr_Query
+     */
+    var query = builder.getQuery();
+
+    /**
+     * Serialize form, fire ajax request and call callback-function on success.
+     *
+     * @return void
+     */
+    var search = function (callback) {
+        var form = $(settings.IDENTIFIER.form);
+        self.model.find({
+            url: $(form).attr('action') + '&type=' + $(form).attr('type'),
+            data: $(form).serialize()
+        }, callback);
+    };
+
+    /**
+     * Adds active class to each selected element.
+     *
+     * @param    Object    elements
+     * @param    Object    active
+     * @return    void
+     */
+    var addActiveClass = function (elements, active) {
+        $(elements).removeClass(settings.IDENTIFIER.activeClassName);
+        $(active).addClass(settings.IDENTIFIER.activeClassName);
+    };
+
+    var updateDownloadBox = function (identifier, data) {
+        var rel = $(settings.IDENTIFIER.facets[identifier] + ' dd .' + settings.IDENTIFIER.activeClassName).attr('rel');
+
+        $(settings.IDENTIFIER.facets[identifier]).replaceWith($(settings.IDENTIFIER.facets[identifier], data));
+
+        if (rel) {
+            $(settings.IDENTIFIER.facets[identifier] + ' option[rel="' + rel + '"]').addClass(settings.IDENTIFIER.activeClassName);
+            $(settings.IDENTIFIER.facets[identifier] + ' a[rel="' + rel + '"]').addClass(settings.IDENTIFIER.activeClassName);
+        }
+    };
+
+    var cropText = function(text) {
+        if(text.length >= 60) {
+            text = text.substring(0, 60) + '...';
+        }
+        return text;
+    };
+
+    /**
+     * Update current page data
+     *
+     * @param    Object    data
+     * @return    void
+     */
+    var update = function (data, requester) {
+        if (requester == settings.IDENTIFIER.facets['col1']) {
+            updateDownloadBox('col2', data);
+            $(settings.IDENTIFIER.facets['col1'] + ' .panel-collapse').collapse('hide');
+        } else if (requester == settings.IDENTIFIER.facets['col2']) {
+            updateDownloadBox('col4', data);
+            $(settings.IDENTIFIER.facets['col2'] + ' .panel-collapse').collapse('hide');
+        } else if (requester == settings.IDENTIFIER.facets['col4']) {
+            $(settings.IDENTIFIER.facets['col4'] + ' .panel-collapse').collapse('hide');
+            $(settings.IDENTIFIER.result).replaceWith($(settings.IDENTIFIER.result, data));
+            $(settings.IDENTIFIER.resultSearch).replaceWith($(settings.IDENTIFIER.resultSearch, data));
+            window.SMA.Animations.animateScroll(settings.IDENTIFIER.facets['languages'], 300);
+            updateDownloadBox('languages', data);
+        } else if (requester == settings.IDENTIFIER.reset) {
+            // reset
+            for (var identifier in settings.IDENTIFIER.facets) {
+                updateDownloadBox(identifier, data);
+            }
+            $(settings.IDENTIFIER.result).replaceWith($(settings.IDENTIFIER.result, data));
+            $(settings.IDENTIFIER.resultSearch).replaceWith($(settings.IDENTIFIER.resultSearch, data));
+        } else if (requester == settings.IDENTIFIER.facets.languages) {
+            $(settings.IDENTIFIER.result).replaceWith($(settings.IDENTIFIER.result, data));
+            $(settings.IDENTIFIER.resultSearch).replaceWith($(settings.IDENTIFIER.resultSearch, data));
+
+        } else if (requester === settings.IDENTIFIER.submitForm) {
+            $(settings.IDENTIFIER.result).replaceWith($(settings.IDENTIFIER.result, data));
+            $(settings.IDENTIFIER.resultSearch).replaceWith($(settings.IDENTIFIER.resultSearch, data));
+            updateDownloadBox('languages', data);
+            updateDownloadBox('languagesSearch', data);
+        }
+
+        $('#tx-lwsmasolrsearch-direct-link').replaceWith($('#tx-lwsmasolrsearch-direct-link', data));
+        self.attachListener();
+        window.SMA.TaikoForm.init();
+        window.SMA.downloadCenter.init();
+        window.LIGHTWERK.LwSmaTracker.init();
+        window.LIGHTWERK.LwSmaSecureDownload.applySecureDownloadListener();
+        hideSpinner();
+    };
+
+    var showSpinner = function () {
+        $('#tx-lwsmasolrsearch-pi1').css('position', 'relative');
+        $('#tx-lwsmasolrsearch-pi1').append('<div class="loading" style="z-index: 2"><div class="loadingIcon"><img src="/typo3conf/ext/lw_sma_solr_search/Resources/Public/Icons/loading.gif" alt="Loading" title="Loading" /></div></div>');
+    };
+
+    var hideSpinner = function () {
+        $('#tx-lwsmasolrsearch-pi1').css('position', 'static');
+        $('#tx-lwsmasolrsearch-pi1 .loading').remove();
+    };
+
+    /**
+     * Listener for col1
+     *
+     * @return void
+     */
+    this.col1Listener = function () {
+
+        $(settings.IDENTIFIER.facets.col1 + ' dd a').unbind('click').click(function () {
+
+            query.removeFilterQuery(settings.IDENTIFIER.facetFields.col2);
+            $(settings.IDENTIFIER.facets.col2 + ' dd a').removeClass('active');
+            query.removeFilterQuery(settings.IDENTIFIER.facetFields.col4);
+            query.removeFilterQuery(settings.IDENTIFIER.facetFields.languages);
+            query.setQuery('*:*');
+            showSpinner();
+            $(settings.IDENTIFIER.facets['col1'] + ' .heading-additional').text(cropText($(this).text()));
+            $(settings.IDENTIFIER.facets['col2']).html('');
+            $(settings.IDENTIFIER.facets['col4']).html('');
+            $(settings.IDENTIFIER.facets['languages']).html('');
+            $(settings.IDENTIFIER.result).html('');
+            if ($(this).hasClass('active')) {
+                builder.map();
+                search(function (data) {
+                    update(data, settings.IDENTIFIER.facets.col1);
+                });
+            } else {
+                addActiveClass($(settings.IDENTIFIER.facets.col1 + ' dd a'), $(this));
+                query.addFilterQuery(settings.IDENTIFIER.facetFields.col1, '"' + $(this).attr('rel') + '"');
+                query.setRows($(this).attr('rev')).setStart(0);
+                builder.map();
+                search(function (data) {
+                    update(data, settings.IDENTIFIER.facets.col1);
+                });
+            }
+        });
+    };
+
+    /**
+     * Listener for col2
+     *
+     * @return void
+     */
+    this.col2Listener = function () {
+
+        $(settings.IDENTIFIER.facets.col2 + ' dl a').unbind('click').click(function () {
+            query.removeFilterQuery(settings.IDENTIFIER.facetFields.col4);
+            $(settings.IDENTIFIER.facets.col4 + ' dl a').removeClass('active');
+            query.removeFilterQuery(settings.IDENTIFIER.facetFields.languages);
+            $(settings.IDENTIFIER.facets['col4']).html('');
+            $(settings.IDENTIFIER.facets['languages']).html('');
+            $(settings.IDENTIFIER.result).html('');
+            showSpinner();
+            $(settings.IDENTIFIER.facets['col2'] + ' .heading-additional').text(cropText($(this).text()));
+            if ($(this).hasClass('active')) {
+                builder.map();
+                search(function (data) {
+                    update(data, settings.IDENTIFIER.facets.col2);
+                });
+            } else {
+                addActiveClass($(settings.IDENTIFIER.facets.col2 + ' dl a'), $(this));
+                query.addFilterQuery(settings.IDENTIFIER.facetFields.col2, '"' + $(this).attr('rel') + '"');
+                builder.map();
+                search(function (data) {
+                    update(data, settings.IDENTIFIER.facets.col2);
+                });
+            }
+        });
+    };
+
+
+    /**
+     * Listener for col4
+     *
+     * @return void
+     */
+    this.col4Listener = function () {
+
+        $(settings.IDENTIFIER.facets.col4 + ' dl a, ' + settings.IDENTIFIER.facets.col4 + ' span a').unbind('click').click(function () {
+            query.removeFilterQuery(settings.IDENTIFIER.facetFields.languages);
+            query.removeFilterQuery(settings.IDENTIFIER.facetFields.col4);
+            $(settings.IDENTIFIER.result).html('');
+            $(settings.IDENTIFIER.facets['languages']).html('');
+            $(settings.IDENTIFIER.facets['col4'] + ' .heading-additional').text(cropText($(this).text()));
+            showSpinner();
+            addActiveClass($(settings.IDENTIFIER.facets.col4 + ' dl a'), $(this));
+            query.addFilterQuery(settings.IDENTIFIER.facetFields.col4, '"' + $(this).attr('rel') + '"');
+            builder.map();
+            search(function (data) {
+                update(data, settings.IDENTIFIER.facets.col4);
+            });
+        });
+    };
+
+    /**
+     * Listener for docLanguage.
+     *
+     * @return void
+     */
+    this.languageListener = function () {
+        $(settings.IDENTIFIER.facets.languages + ' select').unbind('change').change(function () {
+            var act = $(settings.IDENTIFIER.facets.languages + ' select option:selected').attr('rel');
+            showSpinner();
+            query.removeFilterQuery('docLanguage');
+            query.addFilterQuery('docLanguage', '"' + act + '"');
+            builder.map();
+            search(function (data) {
+                update(data, settings.IDENTIFIER.facets.languages);
+            });
+        });
+        $(settings.IDENTIFIER.facets.languagesSearch + ' select').unbind('change').change(function () {
+            var act = $(settings.IDENTIFIER.facets.languagesSearch + ' select option:selected').attr('rel');
+            showSpinner();
+            query.removeFilterQuery('docLanguage');
+            query.addFilterQuery('docLanguage', '"' + act + '"');
+            builder.map();
+            search(function (data) {
+                update(data, settings.IDENTIFIER.facets.languages);
+            });
+        });
+    };
+
+    /**
+     * Listener for autocomplete search.
+     *
+     * @return void
+     */
+    this.resetListener = function () {
+
+        $(settings.IDENTIFIER.reset + ' a, ' + settings.IDENTIFIER.reset + ' option').unbind('click').click(function () {
+            showSpinner();
+            query.resetFilterQueries();
+            query.setRows(0).setStart(0);
+            $(settings.IDENTIFIER.wrapper + ' a').removeClass(settings.IDENTIFIER.activeClassName);
+            $(settings.IDENTIFIER.wrapper + ' input').removeClass(settings.IDENTIFIER.activeClassName);
+            $(settings.IDENTIFIER.searchField).val('');
+            query.setQuery('*:*');
+            builder.map();
+            search(function (data) {
+                update(data, settings.IDENTIFIER.reset);
+            });
+        });
+    };
+
+    this.searchListener = function () {
+        $(settings.IDENTIFIER.submitForm).unbind('submit').bind('submit', function () {
+            showSpinner();
+            if ($(settings.IDENTIFIER.searchField).val()) {
+                query.setQuery($(settings.IDENTIFIER.searchField).val());
+                builder.map();
+                search(function (data) {
+                    update(data, settings.IDENTIFIER.submitForm);
+                });
+            } else {
+                query.setQuery('*:*');
+                builder.map();
+                search(function (data) {
+                    update(data, settings.IDENTIFIER.submitForm);
+                });
+            }
+            return false;
+        });
+
+    };
+
+
+
+    /**
+     * Attach Events
+     */
+    this.attachListener = function () {
+        self.col1Listener();
+        self.col2Listener();
+        self.col4Listener();
+        self.languageListener();
+        self.searchListener();
+    };
+
+    this.ajaxIndexAction = function() {
+        showSpinner();
+        search(function (data) {
+            $(settings.IDENTIFIER.facets.languages).replaceWith($(settings.IDENTIFIER.facets.languages, data));
+            update(data, settings.IDENTIFIER.facets.languages);
+
+        });
+    };
+
+    /**
+     * indexAction
+     *
+     * @return void
+     */
+    this.indexAction = function () {
+        self.attachListener();
+        self.resetListener();
+    };
+
+};
+
+/**
+ * Model for Search Requests
+ *
+ * @package SMA Solr Search
+ * @subpackage Model
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+function LwSmaSolrSearch_Model_Search() {
+
+	/**
+	 * Search for products
+	 *
+	 * @param	Object		arguments
+	 * @param	Function	callback
+	 * @return	void
+	 */
+	this.find = function(arguments, callback) {
+		this.handle.abortRequest();
+		this.handle.setUrl(arguments.url);
+		this.handle.setType('post');
+		this.handle.ajax(arguments.data, callback);
+	};
+
+	/**
+	 * Search for autocomplete
+	 *
+	 * @param	Object		arguments
+	 * @param	Function	callback
+	 * @return	void
+	 */
+	this.autocomplete = function(arguments, callback) {
+		this.handle.abortRequest();
+		this.handle.setUrl(arguments.url);
+		this.handle.setDataType('json');
+		this.handle.ajax(arguments.data, callback);
+	};
+
+}
+
+LwJsMvc_Utility_Inheritance.extend (
+	LwSmaSolrSearch_Model_Search,
+	LwJsMvc_Model_Abstract
+);
+/**
+ * QueryBuilder.
+ *
+ * @package SMA Solr Search
+ * @subpackage Solr
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+function LwSmaSolrSearch_Solr_QueryBuilder(args) {
+
+	/**
+	 * @var jQuery's $-function
+	 */
+	var $ = eval('jQuery');
+
+	/**
+	 * @var Object
+	 */
+	var element = $(args[1]);
+
+	/**
+	 * @var LwSmaSolrSearch_Solr_Query
+	 */
+	var query;
+
+	/**
+	 * Create a query from property.
+	 *
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.getQuery = function() {
+		var json = $(element).val().replace(/&quot;/g, '"');
+		query = LwJsMvc_Utility_DataMapper.map('LwSmaSolrSearch_Solr_Query', json);
+		return query;
+	};
+
+	/**
+	 * Map query to form property.
+	 *
+	 * @return	void
+	 */
+	this.map = function() {
+		$(element).val(query.toJSON());
+	};
+
+}
+/**
+ * Memory Service.
+ *
+ * @package SMA Solr Search
+ * @subpackage Service
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+/**
+ * Service is useful to detect the lowest row count number when resetting a facet.
+ */
+function LwSmaSolrSearch_Service_MemoryService() {
+
+	/**
+	 * @var jQuery's $-function
+	 */
+	var $ = eval('jQuery');
+
+	/**
+	 * @var	String
+	 */
+	var facetFields = $.parseJSON($(LwSmaSolrSearch_Configuration_Settings.IDENTIFIER.facetfields).val().replace(/&quot;/g, '"'));
+
+	/**
+	 * @var Array
+	 */
+	var memory = {};
+
+	/**
+	 * Adds a selected field to memory
+	 *
+	 * @param	String	field
+	 * @param	String	id
+	 * @return	void
+	 */
+	this.add = function(field, id) {
+		memory[field] = id;
+	};
+
+	/**
+	 * Removes a selected field from memory
+	 *
+	 * @return	Object
+	 */
+	this.remove = function(field) {
+		delete memory[field];
+	};
+
+	/**
+	 * Detect if memory is empty.
+	 *
+	 * @return	Boolean
+	 */
+	this.isEmpty = function() {
+		return memory.length > 0 ?  true : false;
+	};
+
+	/**
+	 * Returns the lowest row count.
+	 *
+	 *  @return		Integer
+	 */
+	this.getRows = function() {
+		var rows = null;
+		for (var field in memory) {
+			if (rows == null || facetFields[field][memory[field]] < rows) {
+				rows = facetFields[field][memory[field]];
+			}
+		}
+		return rows == null ? 0 : rows;
+	};
+
+}
+/**
+ * Solr Query.
+ *
+ * @package SMA Solr Search
+ * @subpackage Object
+ * @author Alexander All <ara@lightwerk.de>
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+function LwSmaSolrSearch_Solr_Query() {
+
+	/**
+	 * @var String
+	 */
+	this.query = '';
+
+	/**
+	 * @var Object
+	 */
+	this.facetFields = {};
+
+	/**
+	 * @var Object
+	 */
+	this.filterQueries = {};
+
+	/**
+	 * @var Object
+	 */
+	this.facetMinCounts = {};
+
+	/**
+	 * @var Object
+	 */
+	this.facetSort = {};
+
+	/**
+	 * @var Integer
+	 */
+	this.rows = 0;
+
+	this.sort = '';
+
+	/**
+	 * @var Integer
+	 */
+	this.start = 0;
+
+	this.groupField = '';
+
+	this.facetLimit = 0;
+
+	this.groupLimit = 0;
+
+	this.setFacetLimit = function(facetLimit) {
+		this.facetLimit = facetLimit;
+		return this;
+	};
+
+	this.getFacetLimit = function() {
+		return this.facetLimit;
+	};
+
+	this.getSort = function() {
+		return this.sort;
+	};
+
+	this.setSort = function(sort) {
+		this.sort = sort;
+		return this;
+	};
+
+	this.setGroupLimit = function(groupLimit) {
+		this.groupLimit = groupLimit;
+		return this;
+	};
+
+	this.getGroupLimit = function() {
+		return this.groupLimit;
+	};
+
+
+	this.setGroupField = function(groupField) {
+		this.groupField = groupField;
+		return this;
+	};
+
+	this.getGroupField = function() {
+		return this.groupField;
+	}
+
+	/**
+	 * Returns the main query
+	 *
+	 * @return	String
+	 */
+	this.getQuery = function() {
+		return this.query;
+	};
+
+	/**
+	 * Sets the search query
+	 *
+	 * @param	String		query
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.setQuery = function(query) {
+		this.query = query;
+		return this;
+	};
+
+	/**
+	 * Adds another field to the facet
+	 *
+	 * @param	String		field
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.addFacetField = function(field) {
+		if (field.toString().length > 0) {
+			this.facetFields[field] = 1;
+		}
+		return this;
+	};
+
+	/**
+	 * Removes field from the facet
+	 *
+	 * @param	String		field
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.removeFacetField = function(field) {
+		if (field in this.facetFields) {
+			delete this.facetFields[field];
+		}
+		return this;
+	};
+
+	/**
+	 * Specifies a filter query
+	 *
+	 * @param	String		field
+	 * @param	String		value
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.addFilterQuery = function(field, value) {
+		if (field.toString().length > 0 && value.toString().length > 0) {
+			this.filterQueries[field] = value;
+		}
+		return this;
+	};
+
+	/**
+	 * Removes a filter query.
+	 *
+	 * @param	String		field
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.removeFilterQuery = function(field) {
+		if (field in this.filterQueries) {
+			delete this.filterQueries[field];
+		}
+		return this;
+	};
+
+	/**
+	 * Getter for filterQueries
+	 *
+	 * @return	Object
+	 */
+	this.getFilterQueries = function() {
+		var result = {};
+		for (var property in this.filterQueries) {
+			result[property] = this.filterQueries[property];
+		}
+		return result;
+	};
+
+	/**
+	 * Adds the sorting for a facet field that should be included in the response.
+	 *
+	 * @param	String		field
+	 * @param	String		value
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.addFacetSort = function(field, value) {
+		if (field.toString().length > 0 && value.toString().length > 0) {
+			this.facetSort[field] = value;
+		}
+		return this;
+	};
+
+	/**
+	 * Removes a facet sorting
+	 *
+	 * @param	String		field
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.removeFacetSort = function(field) {
+		if (field in this.facetSort) {
+			delete this.facetSort[field];
+		}
+		return this;
+	};
+
+	/**
+	 * Adds the minimum counts for a facet field that should be included in the response.
+	 *
+	 * @param	String		field
+	 * @param	String		value
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.addFacetMinCount = function(field, value) {
+		if (field.toString().length > 0 && value.toString().length > 0) {
+			this.facetMinCounts[field] = value;
+		}
+		return this;
+	};
+
+	/**
+	 * Removes a minimum count for a facet field.
+	 *
+	 * @param	String		field
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.removeFacetMinCount = function(field) {
+		if (field in this.facetMinCounts) {
+			delete this.facetMinCounts[field];
+		}
+		return this;
+	};
+
+	/**
+	 * Reset facet fields.
+	 *
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.resetFacetFields = function() {
+		this.facetFields = {};
+		return this;
+	};
+
+	/**
+	 * Reset filter queries.
+	 *
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.resetFilterQueries = function() {
+		this.filterQueries = {};
+		return this;
+	};
+
+	/**
+	 * Reset facet minimum counts.
+	 *
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.resetFacetMinCounts = function() {
+		this.facetMincounts = {};
+		return this;
+	};
+
+	/**
+	 * Reset facet sorting.
+	 *
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.resetFacetSort = function() {
+		this.facetSort = {};
+		return this;
+	};
+
+	/**
+	 * Specifies the maximum number of rows to return in the result
+	 *
+	 * @return	Integer
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.setRows = function(rows) {
+		this.rows = parseInt(rows);
+		return this;
+	};
+
+	/**
+	 * Specifies the number of rows to skip. Useful in pagination of results
+	 *
+	 * @return	Integer
+	 * @return	LwSmaSolrSearch_Solr_Query
+	 */
+	this.setStart = function(start) {
+		this.start = parseInt(start);
+		return this;
+	};
+
+	/**
+	 * Returns a JSON string of this object.
+	 *
+	 * @return	String
+	 */
+	this.toJSON = function() {
+		return JSON.stringify({
+			'query': this.query,
+			'facetFields': this.facetFields,
+			'filterQueries': this.getFilterQueries(),
+			'facetMinCounts': this.facetMinCounts,
+			'facetSort': this.facetSort,
+			'rows': this.rows,
+			'start': this.start,
+			'groupField': this.groupField,
+			'facetLimit': this.facetLimit
+		});
+	};
+}
+
+/**
+ * bootstrap
+ *
+ * @package JavaScript MVC
+ * @author Alexander All <ara@lightwerk.de>
+ * @version 1.0.0
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+jQuery(function($) {
+	// lw-lp: Quick fix
+	//if ($.browser.msie && $.browser.version <= 6) {
+	if (!window.addEventListener && !window.XMLHttpRequest && window.attachEvent) {
+		// Internet Explorer 6 and lower is not supported!
+	} else {
+		(function(){
+				// Set basic configuration
+			(function() {
+					// create shortcut
+				$loader = LwJsMvc_Service_Loader;
+			}());
+		})();
+	}
+});
+
+window.LIGHTWERK = window.LIGHTWERK || {};
+
+(function ($, LW) {
+    'use strict';
+
+    LW.LwSmaSecureDownload = {
+
+        $plugin: {},
+        serialNumberCache: {},
+        selectedProduct: '',
+
+        warmupSerialNumberCache: function () {
+            var currentTime= (new Date()).getTime();
+            var url = '/?type=1479825865&t=' + currentTime;
+            if (typeof LwEnetSmaBase !== 'undefined' && typeof LwEnetSmaBase.ajaxLanguageId !== 'undefined') {
+                url += '&L=' + LwEnetSmaBase.ajaxLanguageId;
+            }
+            $.ajax({
+                url: url,
+                data: {
+                    tx_lwsmasolrsearch_securedownloads: {
+                        action: 'getSerialNumbers'
+                    }
+                },
+                headers: {
+                    Accept : "application/json;"
+                }
+            }).done(function(response) {
+                response.serialNumbers = response.serialNumbers || {};
+                if ($.isEmptyObject(response.serialNumbers) === false) {
+                    LW.LwSmaSecureDownload.serialNumberCache = response.serialNumbers;
+                    LW.LwSmaSecureDownload.applySerialNumbersFromCache();
+                }
+            });
+        },
+
+        /**
+         * For a selected product, serial numbers have to be prefilled if a serial numbers
+         * was submitted for this product before.
+         */
+        applySerialNumbersFromCache: function () {
+            // No serial numbers cached - abort
+            if ($.isEmptyObject(LW.LwSmaSecureDownload.serialNumberCache)) {
+                return;
+            }
+
+            // No product selected - abort
+            if (LW.LwSmaSecureDownload.selectedProduct.length === 0) {
+                return;
+            }
+
+            // No cache for selected product - abort
+            if (typeof LW.LwSmaSecureDownload.serialNumberCache[LW.LwSmaSecureDownload.selectedProduct] === 'undefined') {
+                return;
+            }
+
+            LW.LwSmaSecureDownload.$plugin.find('#download-results-list .panel-collapse .secure-dl').each(function () {
+                $(this).find('input').val(LW.LwSmaSecureDownload.serialNumberCache[LW.LwSmaSecureDownload.selectedProduct]);
+            });
+        },
+
+        applySecureDownloadListener: function () {
+
+            var active = $('#tx-lwsmasolrsearch-col2 div.panel-body dl dd a.active');
+            if (active.length !== 0) {
+                LW.LwSmaSecureDownload.selectedProduct = active.attr('rel');
+            }
+
+            LW.LwSmaSecureDownload.applySerialNumbersFromCache();
+
+            LW.LwSmaSecureDownload.$plugin.find('#download-results-list .panel-collapse .secure-dl').each(function () {
+                var $this = $(this),
+                    $fancyBoxContent = $this.find('.serial-number'),
+                    $label;
+
+                $label = $fancyBoxContent.find('label.error');
+                $this.find('a.downloadBrowser').each(function () {
+                    // init fancybox with inline markup
+                    $(this).fancybox({
+                        hideOnContentClick: false,
+                        'scrolling'   : 'no',
+                        'onClosed': function(){
+                            $label.html('');
+                        }
+                    });
+                    $(this).bind('click', function (event) {
+                        event.preventDefault();
+                    });
+                });
+
+                // Make buttons send AJAX requests
+                $this.find('.row.serial-number button').bind('click', function () {
+                    var serialNumber = $fancyBoxContent.find('input').val(),
+                        downloadId = $this.data('download-id');
+                    LW.LwSmaSecureDownload.validateSerialNumber(serialNumber, downloadId, $label, LW.LwSmaSecureDownload.selectedProduct);
+                });
+            });
+        },
+
+        validateSerialNumber: function (serialNumber, downloadId, $label, product) {
+            var currentTime= (new Date()).getTime();
+            var url = '/?type=1479825865&t=' + currentTime;
+            if (typeof LwEnetSmaBase !== 'undefined' && typeof LwEnetSmaBase.ajaxLanguageId !== 'undefined') {
+                url += '&L=' + LwEnetSmaBase.ajaxLanguageId;
+            }
+            $.ajax({
+                url: url,
+                data: {
+                    tx_lwsmasolrsearch_securedownloads: {
+                        serialNumber: serialNumber,
+                        downloadId: downloadId,
+                        product: product
+                    }
+                },
+                headers: {
+                    Accept : "application/json;"
+                }
+            })
+                .done(function(response) {
+                    response.publicPath = response.publicPath || '';
+                    response.serialNumbers = response.serialNumbers || {};
+                    $.fancybox.close();
+                    if ($.isEmptyObject(response.serialNumbers) === false) {
+                        LW.LwSmaSecureDownload.serialNumberCache = response.serialNumbers;
+                        LW.LwSmaSecureDownload.applySerialNumbersFromCache();
+                    }
+                    if (response.publicPath.length > 0) {
+                        window.location = '/' + response.publicPath;
+                    }
+                })
+                .fail(function(response) {
+                    // 400 Bad Request - validation error
+                    if (response.status === 400) {
+                        $label.html(JSON.parse(response.responseText));
+                        $label.css('color', 'red');
+                    }
+                });
+        },
+
+
+        init: function ($plugin) {
+            LW.LwSmaSecureDownload.$plugin = $plugin;
+            LW.LwSmaSecureDownload.warmupSerialNumberCache();
+            LW.LwSmaSecureDownload.applySecureDownloadListener();
+        }
+    };
+
+    $(function () {
+        var $plugin = $('#tx-lwsmasolrsearch-pi1');
+        if ($plugin.length !== 0) {
+            LW.LwSmaSecureDownload.init($plugin);
+        }
+    });
+}(jQuery, window.LIGHTWERK));
+
+
+(function ($) {
+    'use strict';
+    $(function () {
+
+        $('div.tx-lw-sma-congratulation div.spRotct').hide();
+
+        if ($('#lwSmaCongratulation-message-container').length > 0) {
+            var remaining = 1000 - $('#lwSmaCongratulation-message-container textarea').val().length;
+            $('#lwSmaCongratulation-message-container .message-length').html(remaining);
+            $('#lwSmaCongratulation-message-container textarea').bind('keyup', function(ev) {
+                var remaining = 1000 - $(this).val().length;
+                $('#lwSmaCongratulation-message-container .message-length').html(remaining);
+            });
+        }
+
+        $('div.tx-lw-sma-congratulation ul.f3-widget-paginator li a').each(function(i, el) {
+           $(el).attr('href', $(el).attr('href') + '#congratulation-list');
+        });
+
+        var location = window.location.toString();
+        if (location.indexOf('tx_lwsmacongratulation_pi1') >= 0) {
+            $('html, body').animate({
+                scrollTop: $("#congratulation-head").offset().top -100
+            }, 1000);
+            var url = location.replace(/\?.*/g, '');
+            window.history.replaceState('', '', url);
+        }
+    });
+
+}(jQuery));

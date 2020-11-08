@@ -1,0 +1,140 @@
+.box3d img {
+    margin: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    height: none !important;
+    width: none !important;
+
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    -ms-transition: none !important;
+    transition: none !important;
+}
+
+.box3d > .zoom > .zoomImageWrapper img {
+    max-width: none !important;
+    max-height: none !important;
+}
+
+.box3d {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    -ms-transition: none !important;
+    transition: none !important;
+}
+
+.box3d > .images > .controlpanel_parent {
+    height: 41px;
+}
+
+.box3d > .images > .controlpanel_parent > .controlpanel {
+    margin: 0 auto;
+    width: 164px;
+}
+
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-next { background-image: url(images/btn-next.png) !important; }
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-next:hover { background-image: url(images/btn-next-hover.png) !important; }
+
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-prev { background-image: url(images/btn-prev.png) !important; }
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-prev:hover { background-image: url(images/btn-prev-hover.png) !important; }
+
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-play { background-image: url(images/btn-play.png) !important; }
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-play:hover { background-image: url(images/btn-play-hover.png) !important; }
+
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-pause { background-image: url(images/btn-pause.png) !important; }
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-pause:hover { background-image: url(images/btn-pause-hover.png) !important; }
+
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-zoom { background-image: url(images/btn-zoom.png) !important; }
+.box3d > .images > .controlpanel_parent > .controlpanel > .btn-zoom:hover { background-image: url(images/btn-zoom-hover.png) !important; }
+
+.box3d > .images > .controlpanel_parent > .controlpanel button:hover,
+.box3d > .images > .controlpanel_parent > .controlpanel button:focus,
+.box3d > .images > .controlpanel_parent > .controlpanel button:active
+{
+    outline: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.box3d > .images > .controlpanel_parent > .controlpanel button {
+    width: 41px;
+    height: 41px;
+    outline: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: transparent !important;
+
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+    -webkit-text-shadow: none !important;
+    -moz-text-shadow: none !important;
+    text-shadow: none !important;
+    background-image: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.box3d > .images > .controlpanel_parent > .bprogressbar {
+    height: 10px;
+}
+
+.box3d > .images {
+    height: 100%;
+    max-width: 640px;
+    margin: auto;
+    position: relative;
+    text-align: center;
+}
+
+/* Firefox Height 100% Fix */
+html { height: 100%; }
+body { height: 100%; margin:0; padding:0; }
+
+.box3d { height: 100%; }
+
+.box3d > .images img {
+    max-width: 100%;
+    max-height: calc(100% - 62px);
+    height: auto;
+    width: auto;
+}
+
+.box3d > .zoom {
+    overflow: hidden;
+    z-index: 998;
+    position: fixed;
+    margin: 0;
+    /*text-align: left;*/
+    padding: 0;
+    text-indent: 0;
+}
+
+.box3d > .zoom > .box-text {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    opacity: 0.8;
+}
+
+.box3d > .zoom > .loading {
+    width: 60px;
+    height: 60px;
+    margin: 60px auto auto auto;
+}
+
+.box3d > .images > .springer {
+    opacity: 0.5;
+    cursor: crosshair;
+    position: absolute;
+    text-align: left;
+}
