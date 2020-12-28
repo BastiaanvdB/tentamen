@@ -591,7 +591,11 @@ padding: 20px;
       font-size: 15px;
     }
 
-
-
+    #footer-right h2 {
+      font-size: 15px;
+    }
+    #footer-left h2 {
+      font-size: 15px;
+    }
 
 }
