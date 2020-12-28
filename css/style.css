@@ -95,15 +95,24 @@ main {
   background-color: #ffffff;
 }
 
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
 #flex-container {
   display: flex;
   flex-direction: row;
   flex-wrap:wrap;
   justify-content: space-between;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   width: 100%;
 
 
@@ -140,16 +149,48 @@ display: flex;
 padding: 10px;
 }
 
+#index-article1 header{
+  font-size: 20px;
+  padding: 10px;
+}
+
+.button1 {
+  background-color: #b22234;
+  padding: 10px;
+
+  }
 #index-article1 img {
   width: 150px;
   float: right;
   padding: 10px;
 }
+#section-article1{
+  height: 100px;
+}
+
+#article-copyright1{
+padding: 20px;
+  float: left;
+  display: block;
+}
+
+
 
 #index-article2 {
   order: 2;
 padding: 10px;
 }
+
+#index-article2 header{
+  font-size: 20px;
+  padding: 10px;
+}
+
+
+.button2 {
+  background-color: #b22234;
+  padding: 10px;
+  }
 
 #index-article2 img {
   width: 150px;
@@ -157,10 +198,30 @@ padding: 10px;
   padding: 10px;
 }
 
+#section-article2{
+  height: 100px;
+}
+
+#article-copyright2{
+padding: 20px;
+  float: left;
+  display: block;
+}
+
 #index-article3 {
   order: 3;
 padding: 10px;
 }
+
+.button3 {
+  background-color: #b22234;
+  padding: 10px;
+  }
+
+  #index-article3 header{
+    font-size: 20px;
+    padding: 10px;
+  }
 
 #index-article3 img {
   width: 150px;
@@ -168,12 +229,22 @@ padding: 10px;
   padding: 10px;
 }
 
+#section-article3{
+  height: 100px;
+}
+
+#article-copyright3{
+padding: 20px;
+  float: left;
+  display: block;
+}
+
 #index-aside {
   text-align: center;
 
 }
 
-  #index-aside h1 {
+  #index-aside h2 {
   font-size: 25px;
   padding: 10px;
   list-style-position: inside;
@@ -186,7 +257,7 @@ padding: 10px;
     font-size: 20px;
   }
 
-footer {
+  #footer-bottom  {
   display: flex;
   flex-direction: row;
   background: #b22234;
@@ -199,15 +270,15 @@ footer {
   float: right;
   width: 30%;
   height: 80px;
-  opacity: 45%;
-  background-color: #fa5454;
+  opacity: 50%;
+  background-color: #FA0;
   text-align: center;
 }
 
-#footer-right h1 {
+#footer-right h2 {
   font-weight: normal;
   font-size: 20px;
-  color: #ffffff;
+  color: #FFF;
   margin-top: 25px;
 }
 
@@ -217,7 +288,7 @@ footer {
   background-color: #b22234;
 }
 
-#footer-left h1 {
+#footer-left h2 {
   font-weight: normal;
   font-size: 20px;
   color: #ffffff;
@@ -255,11 +326,7 @@ footer {
     flex-direction: row;
     flex-wrap:wrap;
     justify-content: space-between;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    width: 100%x;
+    width: 100%;
 
 
   }
@@ -358,7 +425,7 @@ footer {
 
 
 
-  footer {
+  #footer-bottom {
     display: flex;
     flex-direction: row;
     background: #b22234;
@@ -431,12 +498,8 @@ footer {
     display: flex;
     flex-direction: row;
     flex-wrap:wrap;
-      justify-content: space-between;
-      display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    width: 100%x;
+    justify-content: space-between;
+    width: 100%;
 
 
   }
@@ -475,8 +538,8 @@ footer {
 
   #index-article1 img {
     width: 150px;
-    float: right;
     padding: 10px;
+    margin: auto;
   }
 
   #index-article2 {
@@ -492,6 +555,7 @@ footer {
   #index-article2 img {
     width: 150px;
     padding: 10px;
+    margin: auto;
   }
 
   #index-article3 {
@@ -506,7 +570,7 @@ footer {
 
   #index-article3 img {
     width: 150px;
-    float: right;
+    margin: auto;
     padding: 10px;
   }
 
