@@ -108,22 +108,19 @@ main {
 }
 
 /* home page */
-
 #flex-container {
   display: flex;
   flex-direction: row;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
 }
 
-
-
-#video-container{
+#video-container {
   flex: 1;
-padding: 10px;
-flex-basis: 100%;
-display: flex;
+  padding: 10px;
+  flex-basis: 100%;
+  display: flex;
   justify-content: center;
 }
 
@@ -146,10 +143,10 @@ display: flex;
 
 #index-article1 {
   order: 1;
-padding: 10px;
+  padding: 10px;
 }
 
-#index-article1 header{
+#index-article1 header {
   font-size: 20px;
   padding: 10px;
 }
@@ -157,40 +154,38 @@ padding: 10px;
 .button1 {
   background-color: #b22234;
   padding: 10px;
+}
 
-  }
 #index-article1 img {
   width: 150px;
   float: right;
   padding: 10px;
 }
-#section-article1{
+
+#section-article1 {
   height: 100px;
 }
 
-#article-copyright1{
-padding: 20px;
+#article-copyright1 {
+  padding: 20px;
   float: left;
   display: block;
 }
 
-
-
 #index-article2 {
   order: 2;
-padding: 10px;
+  padding: 10px;
 }
 
-#index-article2 header{
+#index-article2 header {
   font-size: 20px;
   padding: 10px;
 }
 
-
 .button2 {
   background-color: #b22234;
   padding: 10px;
-  }
+}
 
 #index-article2 img {
   width: 150px;
@@ -198,30 +193,30 @@ padding: 10px;
   padding: 10px;
 }
 
-#section-article2{
+#section-article2 {
   height: 100px;
 }
 
-#article-copyright2{
-padding: 20px;
+#article-copyright2 {
+  padding: 20px;
   float: left;
   display: block;
 }
 
 #index-article3 {
   order: 3;
-padding: 10px;
+  padding: 10px;
 }
 
 .button3 {
   background-color: #b22234;
   padding: 10px;
-  }
+}
 
-  #index-article3 header{
-    font-size: 20px;
-    padding: 10px;
-  }
+#index-article3 header {
+  font-size: 20px;
+  padding: 10px;
+}
 
 #index-article3 img {
   width: 150px;
@@ -229,149 +224,137 @@ padding: 10px;
   padding: 10px;
 }
 
-#section-article3{
+#section-article3 {
   height: 100px;
 }
 
-#article-copyright3{
-padding: 20px;
+#article-copyright3 {
+  padding: 20px;
   float: left;
   display: block;
 }
 
 #index-aside {
   text-align: center;
-
 }
 
-  #index-aside h2 {
+#index-aside h2 {
   font-size: 25px;
   padding: 10px;
   list-style-position: inside;
-  }
-
-  #index-aside ol {
-    list-style-position: inside;
-    display: inline-block;
-	text-align: left;
-    font-size: 20px;
-  }
-
-/* eu solar page */
-
-
-
-  #solar-article{
-  	text-align: center;
-    padding: 20px;
-  }
-  #countrytable{
-  	grid-area: tableEU;
-  }
-
-#solar-article{
-
-
 }
 
-#toptable{
+#index-aside ol {
+  list-style-position: inside;
+  display: inline-block;
+  text-align: left;
+  font-size: 20px;
+}
+
+/* eu solar page */
+#solar-article {
+  text-align: center;
+  padding: 20px;
+}
+
+#countrytable {
+  grid-area: tableEU;
+}
+
+#solar-article {}
+
+#toptable {
   background-color: #3c3b6e;
   color: #FFF;
 }
 
-
-  td:first-child{
-  	background-color: #b22234;
-    color: white;
-    text-align: center;
-  }
-  tr:nth-child(even){
-  	background-color: #8191ff;
-    text-align: center;
-  }
-  tr:nth-child(odd){
-  	background-color: #c5c7eb;
-    text-align: center;
-  }
-
-#eugrid{
-width: 80%;
-margin: auto;
-
-display: grid;
-grid-template-columns: 75%  25%;
-grid-gap: 3px;
-grid-template-areas:
-"solar-article solar-article"
-"countrytable   eusolar-aside1"
-"countrytable   eusolar-aside1"
-"countrytable   eusolar-aside2"
-"countrytable   eusolar-aside2"
-"countrytable   eusolar-aside3"
-"copyright-eurostat eusolar-aside3";
+td:first-child {
+  background-color: #b22234;
+  color: white;
+  text-align: center;
 }
 
-#countrytable{
+tr:nth-child(even) {
+  background-color: #8191ff;
+  text-align: center;
+}
+
+tr:nth-child(odd) {
+  background-color: #c5c7eb;
+  text-align: center;
+}
+
+#eugrid {
+  width: 80%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 75% 25%;
+  grid-gap: 3px;
+  grid-template-areas:
+    "solar-article solar-article"
+    "countrytable   eusolar-aside1"
+    "countrytable   eusolar-aside1"
+    "countrytable   eusolar-aside2"
+    "countrytable   eusolar-aside2"
+    "countrytable   eusolar-aside3"
+    "copyright-eurostat eusolar-aside3";
+}
+
+#countrytable {
   grid-area: countrytable;
-
 }
 
-
-#solar-article{
+#solar-article {
   height: auto;
   grid-area: solar-article;
 }
 
-.aside-img{
-	height: auto;
-	width: 200px;
-	margin: auto;
+.aside-img {
+  height: auto;
+  width: 200px;
+  margin: auto;
   display: block;
-
 }
 
-
-#eusolar-aside1{
+#eusolar-aside1 {
   grid-area: eusolar-aside1;
-	width: auto;
-	height: auto;
+  width: auto;
+  height: auto;
   text-align: center;
-
 }
-#eusolar-aside1 a{
+
+#eusolar-aside1 a {
   background-color: #ffffff;
 }
 
-
-#eusolar-aside2{
-	width: auto;
-	height: auto;
-	grid-area: eusolar-aside2;
+#eusolar-aside2 {
+  width: auto;
+  height: auto;
+  grid-area: eusolar-aside2;
   text-align: center;
 }
 
-#eusolar-aside2 a{
+#eusolar-aside2 a {
   background-color: #ffffff;
 }
 
-#copyright-eurostat{
-	grid-area: copyright-eurostat;
+#copyright-eurostat {
+  grid-area: copyright-eurostat;
 }
 
-#eusolar-aside3{
-	width: auto;
-	height: auto;
-	grid-area: eusolar-aside3;
+#eusolar-aside3 {
+  width: auto;
+  height: auto;
+  grid-area: eusolar-aside3;
   text-align: center;
 }
 
-#eusolar-aside3 a{
+#eusolar-aside3 a {
   background-color: #ffffff;
 }
 
 /* General footer */
-
-  #footer-bottom  {
+#footer-bottom {
   display: flex;
   flex-direction: row;
   background: #b22234;
@@ -435,26 +418,20 @@ grid-template-areas:
     width: 100%;
   }
 
-
-/* home page */
-
+  /* home page */
   #flex-container {
     display: flex;
     flex-direction: row;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-
-
   }
 
-  #video-container{
+  #video-container {
     order: 2;
     flex: 1;
-
-  flex-basis: 100%;
+    flex-basis: 100%;
   }
-
 
   #product-container {
     order: 3;
@@ -467,7 +444,6 @@ grid-template-areas:
   #aside-container {
     order: 1;
     flex-basis: 100%;
-
   }
 
   #video-container video {
@@ -477,9 +453,10 @@ grid-template-areas:
 
   #index-article1 {
     order: 3;
-  padding: 10px;
+    padding: 10px;
   }
-  #index-article1 h1{
+
+  #index-article1 h1 {
     text-align: center;
     padding: 10px;
   }
@@ -492,10 +469,10 @@ grid-template-areas:
 
   #index-article2 {
     order: 2;
-  padding: 10px;
+    padding: 10px;
   }
 
-  #index-article2 h1{
+  #index-article2 h1 {
     text-align: center;
     padding: 10px;
   }
@@ -508,9 +485,10 @@ grid-template-areas:
 
   #index-article3 {
     order: 1;
-  padding: 10px;
+    padding: 10px;
   }
-  #index-article3 h1{
+
+  #index-article3 h1 {
     text-align: center;
     padding: 10px;
   }
@@ -521,80 +499,72 @@ grid-template-areas:
     padding: 10px;
   }
 
-
-#index-aside {
-  text-align: center;
-
-}
+  #index-aside {
+    text-align: center;
+  }
 
   #index-aside h1 {
-  font-size: 25px;
-  list-style-position: inside;
+    font-size: 25px;
+    list-style-position: inside;
   }
 
   #index-aside ol {
     list-style-position: inside;
     display: inline-block;
-	text-align: left;
+    text-align: left;
     font-size: 20px;
   }
 
+  /* eu solar page */
+  #eugrid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-areas:
+      "solar-article solar-article"
+      "countrytable countrytable"
+      "countrytable countrytable"
+      "countrytable countrytable"
+      "countrytable countrytable"
+      "countrytable countrytable"
+      "copyright-eurostat copyright-eurostat"
+      "eusolar-aside2 eusolar-aside3"
+      "eusolar-aside2 eusolar-aside3"
+      "eusolar-aside2 eusolar-aside3";
+    grid-gap: 3px;
+  }
 
-/* eu solar page */
+  .tablet {
+    display: none;
+  }
 
-#eugrid{
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-areas:
-  "solar-article solar-article"
-  "countrytable countrytable"
-  "countrytable countrytable"
-  "countrytable countrytable"
-  "countrytable countrytable"
-  "countrytable countrytable"
-  "copyright-eurostat copyright-eurostat"
-  "eusolar-aside2 eusolar-aside3"
-  "eusolar-aside2 eusolar-aside3"
-  "eusolar-aside2 eusolar-aside3";
-  grid-gap: 3px;
+  #eusolar-aside1 {
+    display: none;
+  }
 
-}
+  #eusolar-aside2 {
+    padding-top: 30px;
+    width: 200px;
+    height: auto;
+    grid-area: eusolar-aside2;
+    font-size: 80%;
+  }
 
-.tablet{
-  display: none;
-}
+  #eusolar-aside3 {
+    padding-top: 30px;
+    width: 200px;
+    height: auto;
+    grid-area: eusolar-aside3;
+    padding-bottom: 30px;
+  }
 
-#eusolar-aside1{
-  display: none;
-}
+  .aside-img {
+    height: auto;
+    width: 130px;
+    margin: auto;
+    display: block;
+  }
 
-
-#eusolar-aside2{
-  padding-top: 30px;
-  width: 300px;
-  height: auto;
-  grid-area: eusolar-aside2;
-  font-size: 80%;
-
-}
-#eusolar-aside3{
-  padding-top: 30px;
-  width: 300px;
-  height: auto;
-  grid-area: eusolar-aside3;
-
-}
-.aside-img{
-	height: auto;
-	width: 130px;
-	margin: auto;
-  display: block;
-
-}
-
-
-
-/* general footer */
+  /* general footer */
   #footer-bottom {
     display: flex;
     flex-direction: row;
@@ -603,8 +573,6 @@ grid-template-areas:
     width: 100%;
     margin: auto;
   }
-
-
 }
 
 @media (max-width: 480px) {
@@ -665,26 +633,18 @@ grid-template-areas:
     left: 0;
   }
 
-
-
-
-
-/* home page */
-
+  /* home page */
   #flex-container {
     display: flex;
     flex-direction: row;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-
-
   }
 
-  #video-container{
+  #video-container {
     display: none;
   }
-
 
   #product-container {
     order: 3;
@@ -706,12 +666,13 @@ grid-template-areas:
 
   #index-article1 {
     order: 3;
-  padding: 10px;
-  font-size: 15px;
+    padding: 10px;
+    font-size: 15px;
   }
-#index-article1 h1{
-  font-size: 20px;
-}
+
+  #index-article1 h1 {
+    font-size: 20px;
+  }
 
   #index-article1 img {
     width: 150px;
@@ -721,11 +682,12 @@ grid-template-areas:
 
   #index-article2 {
     order: 2;
-  padding: 10px;
-  float: inherit;
-  font-size: 15px;
+    padding: 10px;
+    float: inherit;
+    font-size: 15px;
   }
-  #index-article2 h1{
+
+  #index-article2 h1 {
     font-size: 20px;
   }
 
@@ -737,11 +699,11 @@ grid-template-areas:
 
   #index-article3 {
     order: 1;
-  padding: 10px;
-  font-size: 15px;
+    padding: 10px;
+    font-size: 15px;
   }
 
-  #index-article3 h1{
+  #index-article3 h1 {
     font-size: 20px;
   }
 
@@ -753,88 +715,85 @@ grid-template-areas:
 
   #index-aside {
     text-align: center;
-
   }
 
-    #index-aside h1 {
+  #index-aside h1 {
     font-size: 20px;
     list-style-position: inside;
-    }
+  }
 
-    #index-aside ol {
-      list-style-position: inside;
-      display: inline-block;
-  	text-align: left;
-      font-size: 15px;
-    }
+  #index-aside ol {
+    list-style-position: inside;
+    display: inline-block;
+    text-align: left;
+    font-size: 15px;
+  }
 
-/* eu solar page */
+  /* eu solar page */
+  .tablet {
+    display: none;
+  }
 
+  .mobile {
+    display: none;
+  }
 
-.tablet{
-  display: none;
-}
-.mobile{
-  display: none;
-}
-#eugrid{
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-areas:
-  "countrytable"
-  "countrytable"
-  "countrytable"
-  "countrytable"
-  "countrytable"
-  "countrytable"
-  "countrytable"
-  "copyright-eurostat"
-  "eusolar-aside1"
-  "eusolar-aside2"
-  "eusolar-aside3";
-  grid-gap: 3px;
-}
+  #eugrid {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-areas:
+      "countrytable"
+      "countrytable"
+      "countrytable"
+      "countrytable"
+      "countrytable"
+      "countrytable"
+      "countrytable"
+      "copyright-eurostat"
+      "eusolar-aside1"
+      "eusolar-aside2"
+      "eusolar-aside3";
+    grid-gap: 3px;
+  }
 
-#solar-article{
-  display: none;
-}
+  #solar-article {
+    display: none;
+  }
 
+  #eusolar-aside1 {
+    display: block;
+    padding-top: 30px;
+    width: 300px;
+    height: auto;
+    margin: auto;
+    grid-area: eusolar-aside1;
+    font-size: 80%;
+  }
 
-#eusolar-aside1{
-  display: block;
-  padding-top: 30px;
-  width: 300px;
-  height: auto;
-  grid-area: eusolar-aside1;
-  font-size: 80%;
-}
+  #eusolar-aside2 {
+    padding-top: 30px;
+    width: 300px;
+    height: auto;
+    margin: auto;
+    grid-area: eusolar-aside2;
+    font-size: 80%;
+  }
 
+  #eusolar-aside3 {
+    padding-top: 30px;
+    width: 300px;
+    height: auto;
+    margin: auto;
+    grid-area: eusolar-aside3;
+    font-size: 80%;
+  }
 
-#eusolar-aside2{
-  padding-top: 30px;
-  width: 300px;
-  height: auto;
-  grid-area: eusolar-aside2;
-  font-size: 80%;
+  /* general footer */
+  #footer-right h2 {
+    font-size: 15px;
+  }
 
-}
-#eusolar-aside3{
-  padding-top: 30px;
-  width: 300px;
-  height: auto;
-  grid-area: eusolar-aside3;
-font-size: 80%;
-}
-
-
-
-/* general footer */
-
-    #footer-right h2 {
-      font-size: 15px;
-    }
-    #footer-left h2 {
-      font-size: 15px;
-    }
-
+  #footer-left h2 {
+    font-size: 15px;
+  }
 }
