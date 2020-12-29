@@ -107,6 +107,7 @@ main {
   cursor: pointer;
 }
 
+/* home page */
 
 #flex-container {
   display: flex;
@@ -114,9 +115,9 @@ main {
   flex-wrap:wrap;
   justify-content: space-between;
   width: 100%;
-
-
 }
+
+
 
 #video-container{
   flex: 1;
@@ -125,7 +126,6 @@ flex-basis: 100%;
 display: flex;
   justify-content: center;
 }
-
 
 #product-container {
   flex-basis: 70%;
@@ -257,6 +257,120 @@ padding: 20px;
     font-size: 20px;
   }
 
+/* eu solar page */
+
+
+
+  #solar-article{
+  	text-align: center;
+    padding: 20px;
+  }
+  #countrytable{
+  	grid-area: tableEU;
+  }
+
+#solar-article{
+
+
+}
+
+#toptable{
+  background-color: #3c3b6e;
+  color: #FFF;
+}
+
+
+  td:first-child{
+  	background-color: #b22234;
+    color: white;
+    text-align: center;
+  }
+  tr:nth-child(even){
+  	background-color: #8191ff;
+    text-align: center;
+  }
+  tr:nth-child(odd){
+  	background-color: #c5c7eb;
+    text-align: center;
+  }
+
+#eugrid{
+width: 80%;
+margin: auto;
+
+display: grid;
+grid-template-columns: 75%  25%;
+grid-gap: 3px;
+grid-template-areas:
+"solar-article solar-article"
+"countrytable   eusolar-aside1"
+"countrytable   eusolar-aside1"
+"countrytable   eusolar-aside2"
+"countrytable   eusolar-aside2"
+"countrytable   eusolar-aside3"
+"copyright-eurostat eusolar-aside3";
+}
+
+#countrytable{
+  grid-area: countrytable;
+
+}
+
+
+#solar-article{
+  height: auto;
+  grid-area: solar-article;
+}
+
+.aside-img{
+	height: auto;
+	width: 200px;
+	margin: auto;
+  display: block;
+
+}
+
+
+#eusolar-aside1{
+  grid-area: eusolar-aside1;
+	width: auto;
+	height: auto;
+  text-align: center;
+
+}
+#eusolar-aside1 a{
+  background-color: #ffffff;
+}
+
+
+#eusolar-aside2{
+	width: auto;
+	height: auto;
+	grid-area: eusolar-aside2;
+  text-align: center;
+}
+
+#eusolar-aside2 a{
+  background-color: #ffffff;
+}
+
+#copyright-eurostat{
+	grid-area: copyright-eurostat;
+}
+
+#eusolar-aside3{
+	width: auto;
+	height: auto;
+	grid-area: eusolar-aside3;
+  text-align: center;
+}
+
+#eusolar-aside3 a{
+  background-color: #ffffff;
+}
+
+/* General footer */
+
   #footer-bottom  {
   display: flex;
   flex-direction: row;
@@ -320,6 +434,9 @@ padding: 20px;
   main {
     width: 100%;
   }
+
+
+/* home page */
 
   #flex-container {
     display: flex;
@@ -423,8 +540,61 @@ padding: 20px;
   }
 
 
+/* eu solar page */
+
+#eugrid{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-areas:
+  "solar-article solar-article"
+  "countrytable countrytable"
+  "countrytable countrytable"
+  "countrytable countrytable"
+  "countrytable countrytable"
+  "countrytable countrytable"
+  "copyright-eurostat copyright-eurostat"
+  "eusolar-aside2 eusolar-aside3"
+  "eusolar-aside2 eusolar-aside3"
+  "eusolar-aside2 eusolar-aside3";
+  grid-gap: 3px;
+
+}
+
+.tablet{
+  display: none;
+}
+
+#eusolar-aside1{
+  display: none;
+}
 
 
+#eusolar-aside2{
+  padding-top: 30px;
+  width: 300px;
+  height: auto;
+  grid-area: eusolar-aside2;
+  font-size: 80%;
+
+}
+#eusolar-aside3{
+  padding-top: 30px;
+  width: 300px;
+  height: auto;
+  grid-area: eusolar-aside3;
+
+}
+.aside-img{
+	height: auto;
+	width: 130px;
+	margin: auto;
+  display: block;
+
+}
+
+
+
+/* general footer */
   #footer-bottom {
     display: flex;
     flex-direction: row;
@@ -494,6 +664,13 @@ padding: 20px;
   #check:checked~ul {
     left: 0;
   }
+
+
+
+
+
+/* home page */
+
   #flex-container {
     display: flex;
     flex-direction: row;
@@ -590,6 +767,68 @@ padding: 20px;
   	text-align: left;
       font-size: 15px;
     }
+
+/* eu solar page */
+
+
+.tablet{
+  display: none;
+}
+.mobile{
+  display: none;
+}
+#eugrid{
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-areas:
+  "countrytable"
+  "countrytable"
+  "countrytable"
+  "countrytable"
+  "countrytable"
+  "countrytable"
+  "countrytable"
+  "copyright-eurostat"
+  "eusolar-aside1"
+  "eusolar-aside2"
+  "eusolar-aside3";
+  grid-gap: 3px;
+}
+
+#solar-article{
+  display: none;
+}
+
+
+#eusolar-aside1{
+  display: block;
+  padding-top: 30px;
+  width: 300px;
+  height: auto;
+  grid-area: eusolar-aside1;
+  font-size: 80%;
+}
+
+
+#eusolar-aside2{
+  padding-top: 30px;
+  width: 300px;
+  height: auto;
+  grid-area: eusolar-aside2;
+  font-size: 80%;
+
+}
+#eusolar-aside3{
+  padding-top: 30px;
+  width: 300px;
+  height: auto;
+  grid-area: eusolar-aside3;
+font-size: 80%;
+}
+
+
+
+/* general footer */
 
     #footer-right h2 {
       font-size: 15px;
