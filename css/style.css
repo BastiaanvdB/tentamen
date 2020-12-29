@@ -285,7 +285,7 @@ tr:nth-child(odd) {
 }
 
 #eugrid {
-  width: 80%;
+  width: 90%;
   margin: auto;
   display: grid;
   grid-template-columns: 75% 25%;
@@ -351,6 +351,104 @@ tr:nth-child(odd) {
 
 #eusolar-aside3 a {
   background-color: #ffffff;
+}
+
+/* contact page*/
+#contact-grid {
+  width: 90%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 75% 25%;
+  grid-gap: 3px;
+  grid-template-areas:
+    "contact-title   contact-title"
+    "contactform   contact-aside1"
+    "contactform   contact-aside1"
+    "contactform   contact-aside2"
+    "contactform   contact-aside2"
+    "contactform   contact-aside3"
+    "contactform   contact-aside3";
+}
+
+#contactform {
+  grid-area: contactform;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+#contact-aside1 {
+  grid-area: contact-aside1;
+  margin: auto;
+  padding: 25px;
+}
+
+#contact-aside2 {
+  grid-area: contact-aside2;
+  margin: auto;
+  padding: 25px;
+}
+
+#contact-aside3 {
+  grid-area: contact-aside3;
+  margin: auto;
+  padding: 25px;
+}
+
+.imgcontactaside {
+  height: auto;
+  width: 200px;
+  margin: auto;
+  display: block;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+input[type=text], input[type=email], input[type=Tel], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+input[type=submit] {
+  background-color: #b22234;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+input[type=submit]:hover {
+  background-color: #3c3b6e;
+}
+
+#contact-aside {
+  grid-area: contact-aside;
 }
 
 /* General footer */
@@ -515,8 +613,31 @@ tr:nth-child(odd) {
     font-size: 20px;
   }
 
+  /* contact page */
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  #contact-grid {
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 3px;
+    grid-template-areas:
+      "contactform   contact-aside"
+      "contactform   contact-aside1"
+      "contactform   contact-aside1"
+      "contactform   contact-aside2"
+      "contactform   contact-aside2"
+      "contactform   contact-aside3"
+      "contactform   contact-aside3";
+  }
+
   /* eu solar page */
   #eugrid {
+    width: 90%;
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-areas:
@@ -727,6 +848,29 @@ tr:nth-child(odd) {
     display: inline-block;
     text-align: left;
     font-size: 15px;
+  }
+
+  /* contact page */
+  #contact-grid {
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 3px;
+    grid-template-areas:
+      "contactform"
+      "contactform"
+      "contactform"
+      "contactform"
+      "contactform"
+      "contactform"
+      "contactform"
+      "contact-aside1"
+      "contact-aside1"
+      "contact-aside2"
+      "contact-aside2"
+      "contact-aside3"
+      "contact-aside3";
   }
 
   /* eu solar page */
