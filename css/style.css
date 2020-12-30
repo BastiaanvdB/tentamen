@@ -361,6 +361,7 @@ tr:nth-child(odd) {
   grid-template-columns: 75% 25%;
   grid-gap: 3px;
   grid-template-areas:
+    "contact-toparticle contact-toparticle"
     "contact-title   contact-title"
     "contactform   contact-aside1"
     "contactform   contact-aside1"
@@ -376,6 +377,27 @@ tr:nth-child(odd) {
   background-color: #f2f2f2;
   padding: 20px;
 }
+
+#contact-toparticle{
+margin: auto;
+grid-area: contact-toparticle;
+padding: 15px;
+}
+
+#contact-toparticle h1{
+  font-size: 30px;
+  padding: 20px;
+}
+
+#toparticleinfo{
+margin: auto;
+width: 300px;
+}
+
+.company{
+  font-weight: bold;
+}
+
 
 #contact-aside1 {
   grid-area: contact-aside1;
@@ -450,6 +472,87 @@ input[type=submit]:hover {
 #contact-aside {
   grid-area: contact-aside;
 }
+/* how solar works page */
+#gridsolarworks{
+  width: 100%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  grid-gap: 5px;
+  grid-template-areas:
+    "solarworks-article2 solarworks-article1 solarworks-article3"
+    "solarworks-article2 solarworks-article1 solarworks-article3"
+    "solarworks-article5 solarworks-article1 solarworks-article3"
+    "solarworks-article5 solarworks-article1 solarworks-article4"
+    "solarworks-article5 solarworks-article1 solarworks-article4"
+    "solarworks-article5 solarworks-article6 solarworks-article6"
+    "solarworks-aside1 solarworks-aside2 solarworks-aside3"
+    "solarworks-aside1 solarworks-aside2 solarworks-aside3";
+}
+
+
+
+
+
+
+
+#solarworks-article1{
+grid-area: solarworks-article1;
+height: 200px;
+width: 300px;
+}
+
+#solarworks-article2{
+grid-area: solarworks-article2;
+height: 200px;
+width: 300px;
+}
+
+#solarworks-article3{
+grid-area: solarworks-article3;
+height: 200px;
+width: 300px;
+}
+
+#solarworks-article4{
+  height: 200px;
+grid-area: solarworks-article4;
+width: 300px;
+}
+#solarworks-article5{
+  height: 200px;
+grid-area: solarworks-article5;
+width: 300px;
+}
+#solarworks-article6{
+  height: 200px;
+  width: 300px;
+grid-area: solarworks-article6;
+}
+
+
+
+
+.solarworks-img{
+  height: auto;
+  width: 80px;
+  margin: auto;
+  display: block;
+}
+
+#solarworks-aside1{
+grid-area: solarworks-aside1;
+margin: auto;
+}
+#solarworks-aside2{
+grid-area: solarworks-aside2;
+margin: auto;
+}
+#solarworks-aside3{
+grid-area: solarworks-aside3;
+margin: auto;
+}
+
 
 /* General footer */
 #footer-bottom {
@@ -626,6 +729,7 @@ input[type=submit]:hover {
     grid-template-columns: 50% 50%;
     grid-gap: 3px;
     grid-template-areas:
+      "contact-toparticle contact-toparticle"
       "contactform   contact-aside"
       "contactform   contact-aside1"
       "contactform   contact-aside1"
@@ -858,6 +962,7 @@ input[type=submit]:hover {
     grid-template-columns: 100%;
     grid-gap: 3px;
     grid-template-areas:
+      "contact-toparticle"
       "contactform"
       "contactform"
       "contactform"
