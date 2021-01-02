@@ -478,7 +478,6 @@ input[type=submit]:hover {
   margin: auto;
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
-  grid-gap: 5px;
   grid-template-areas:
     "solarworks-article2 solarworks-article1 solarworks-article3"
     "solarworks-article2 solarworks-article1 solarworks-article3"
@@ -488,30 +487,37 @@ input[type=submit]:hover {
     "solarworks-article5 solarworks-article6 solarworks-article6"
     "solarworks-aside1 solarworks-aside2 solarworks-aside3"
     "solarworks-aside1 solarworks-aside2 solarworks-aside3";
+    grid-gap: 5px;
 }
 
 #solarworks-article1 {
   grid-area: solarworks-article1;
+  padding: 10px;
 }
 
 #solarworks-article2 {
   grid-area: solarworks-article2;
+  padding: 10px;
 }
 
 #solarworks-article3 {
   grid-area: solarworks-article3;
+  padding: 10px;
 }
 
 #solarworks-article4 {
   grid-area: solarworks-article4;
+  padding: 10px;
 }
 
 #solarworks-article5 {
   grid-area: solarworks-article5;
+  padding: 10px;
 }
 
 #solarworks-article6 {
   grid-area: solarworks-article6;
+  padding: 10px;
 }
 
 .solarworks-img {
