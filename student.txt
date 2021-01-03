@@ -1,0 +1,4 @@
+Student name: Bastiaan van der Bijl
+Student number: 666669
+Student class: HAINF1SC2
+URL student GitHub repository: https://github.com/BastiaanvdB/tentamen
