@@ -2,22 +2,22 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="description" content="Contact Trump solar energy">
   <meta name="keywords" content="contact, Telephone, email, contactform, adres">
   <meta name="author" content="Bastiaan van der Bijl">
-  <title>Contact</title>
+  <title>Contact | Trump Solar Energy</title>
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" title="favi" />
+  <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" title="favi" />
 </head>
 
 <body>
   <header>
-    <img src="img/logo.png" alt="Logo">
-    <h1>Trump Solor energy</h1>
+    <img src="img/logo.png" alt="Logo Trump Solar Energy" title="logo Header">
+    <h1>Trump Solar energy</h1>
     <h2>"The Greatest solar energy there is!"</h2>
     <nav>
       <input type="checkbox" id="check">
@@ -35,17 +35,20 @@
     <section id="contact-grid">
 
       <article id="contact-toparticle">
-        <h1>Contactgegevens</H1>
+        <h2>call us!</H2>
         <section id="toparticleinfo">
+        <h3>contact info</H3>
         <p class="company">Trump Solar energy</p>
         <p class="adres">Adres: Driehuizerkerkweg 100 1985HC Driehuis</p>
-        <p class="tel">Tel: +31 (0)682557510</p>
+        <p class="tel"><strong>Tel: +31 (0)682557510</strong></p>
         <p class="email">E-mail: customerservice@trumpsolarenergy.com</p>
         </section>
       </article>
 
 
-      <form action="www.i-want-solar-energy.com/testform.php" id="contactform">
+      <form action="https://i-want-solar-energy.com/testform.php" method="post" id="contactform">
+        <fieldset>
+          <legend>Contact us</legend>
         <section class="row">
           <section class="col-25">
             <label for="firstname">First Name</label>
@@ -83,12 +86,13 @@
             <label for="message">Message</label>
           </section>
           <section class="col-75">
-            <textarea id="message" name="message" placeholder="Write something.." style="height:200px"></textarea>
+            <textarea id="message" name="message" placeholder="Write something.." ></textarea>
           </section>
         </section>
         <section class="row">
           <input type="submit" value="Send message">
         </section>
+      </fieldset>
       </form>
 
       <aside id="contact-aside1">
@@ -123,7 +127,7 @@
   </main>
   <footer id="footer-bottom">
     <section id="footer-left">
-      <h2>&#169; 2021 Bastiaan van der Bijl</h2>
+      <h2>&copy; 2021 Bastiaan van der Bijl</h2>
     </section>
     <section id="footer-right">
       <h2>Cookie statement</h2>
